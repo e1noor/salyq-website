@@ -105,3 +105,29 @@ if (speakerPhoto && photoCard) {
 
   speakerPhoto.addEventListener('error', markMissing, { once: true });
 }
+
+const whatsappPhone = '77020897021';
+const whatsappMessage = 'Сәлеметсіз бе! НДС және ОУР онлайн курсы туралы ақпарат алғым келеді.';
+const encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
+const whatsappWebUrl = `https://wa.me/${whatsappPhone}?text=${encodedWhatsappMessage}`;
+const whatsappIosUrl = `https://wa.me/${whatsappPhone}?text=${encodedWhatsappMessage}`;
+const whatsappAndroidUrl =
+  `intent://send?phone=${whatsappPhone}&text=${encodedWhatsappMessage}` +
+  `#Intent;scheme=whatsapp;package=com.whatsapp;` +
+  `S.browser_fallback_url=${encodeURIComponent(whatsappWebUrl)};end`;
+
+const isAndroid = /Android/i.test(navigator.userAgent);
+const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+document.querySelectorAll('[data-whatsapp-link]').forEach((link) => {
+  if (isAndroid) {
+    link.setAttribute('href', whatsappAndroidUrl);
+  } else if (isIos) {
+    link.setAttribute('href', whatsappIosUrl);
+  } else {
+    link.setAttribute('href', whatsappWebUrl);
+  }
+
+  link.setAttribute('target', '_self');
+  link.setAttribute('rel', 'external');
+});
