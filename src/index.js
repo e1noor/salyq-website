@@ -105,3 +105,63 @@ if (speakerPhoto && photoCard) {
 
   speakerPhoto.addEventListener('error', markMissing, { once: true });
 }
+
+const whatsappPhone = '77020897021';
+const whatsappMessage = 'Сәлеметсіз бе! НДС және ОУР онлайн курсы туралы ақпарат алғым келеді.';
+const whatsappText = encodeURIComponent(whatsappMessage);
+const whatsappWebUrl = `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${whatsappText}`;
+const whatsappAppUrl = `whatsapp://send?phone=${whatsappPhone}&text=${whatsappText}`;
+const whatsappIntentUrl = `intent://send?phone=${whatsappPhone}&text=${whatsappText}#Intent;scheme=whatsapp;package=com.whatsapp;S.browser_fallback_url=${encodeURIComponent(whatsappWebUrl)};end`;
+const isAndroidDevice = /Android/i.test(navigator.userAgent);
+const isMobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+document.querySelectorAll('[data-whatsapp-link]').forEach((link) => {
+  link.setAttribute('href', whatsappWebUrl);
+  link.setAttribute('rel', 'noopener');
+
+  if (!isMobileDevice) {
+    link.setAttribute('target', '_blank');
+    return;
+  }
+
+  link.removeAttribute('target');
+
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    let leftPage = false;
+    let fallbackTimer;
+
+    const cleanup = () => {
+      window.clearTimeout(fallbackTimer);
+      window.removeEventListener('pagehide', markLeftPage);
+      window.removeEventListener('blur', markLeftPage);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+
+    const openFallback = () => {
+      cleanup();
+      if (!leftPage && document.visibilityState === 'visible') {
+        window.location.href = whatsappWebUrl;
+      }
+    };
+
+    function markLeftPage() {
+      leftPage = true;
+      cleanup();
+    }
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        markLeftPage();
+      }
+    }
+
+    window.addEventListener('pagehide', markLeftPage, { once: true });
+    window.addEventListener('blur', markLeftPage, { once: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    fallbackTimer = window.setTimeout(openFallback, 1200);
+    window.location.href = isAndroidDevice ? whatsappIntentUrl : whatsappAppUrl;
+  });
+});
