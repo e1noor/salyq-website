@@ -436,6 +436,19 @@ h3 {
   object-position: center top;
 }
 
+.hero-media::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 34%;
+  background: linear-gradient(180deg, rgba(8, 42, 43, 0.94) 0%, var(--color-primary-dark) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
 .photo-fallback {
   position: absolute;
   inset: 0;
@@ -478,6 +491,7 @@ h3 {
   left: 16px;
   right: 16px;
   bottom: 16px;
+  z-index: 2;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 16px;
