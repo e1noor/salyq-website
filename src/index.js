@@ -2,8 +2,11 @@ const body = document.body;
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('[data-nav-toggle]');
 const navMenu = document.querySelector('[data-nav-menu]');
-const navLinks = Array.from(document.querySelectorAll('.nav-menu a[href^="#"]'));
-const sections = Array.from(document.querySelectorAll('main section[id]'));
+const menuLinks = Array.from(document.querySelectorAll('[data-nav-menu] a'));
+const anchorLinks = Array.from(document.querySelectorAll('[data-nav-menu] a[href^="#"]'));
+const sections = anchorLinks
+  .map((link) => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
 const speakerPhoto = document.querySelector('[data-speaker-photo]');
 const photoCard = document.querySelector('[data-photo-card]');
 
@@ -30,7 +33,7 @@ navToggle?.addEventListener('click', () => {
   isOpen ? closeMenu() : openMenu();
 });
 
-navLinks.forEach((link) => {
+menuLinks.forEach((link) => {
   link.addEventListener('click', closeMenu);
 });
 
@@ -46,7 +49,7 @@ updateHeaderShadow();
 window.addEventListener('scroll', updateHeaderShadow, { passive: true });
 
 const setActiveLink = (id) => {
-  navLinks.forEach((link) => {
+  anchorLinks.forEach((link) => {
     link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
   });
 };
@@ -73,12 +76,12 @@ if ('IntersectionObserver' in window && sections.length > 0) {
     },
     {
       rootMargin: '-18% 0px -64% 0px',
-      threshold: [0, 0.12, 0.28],
+      threshold: [0, 0.15, 0.35],
     },
   );
 
   sections.forEach((section) => observer.observe(section));
-} else {
+} else if (sections.length > 0) {
   const updateActiveByScroll = () => {
     const activationPoint = window.scrollY + window.innerHeight * 0.32;
     let activeId = sections[0]?.id;
