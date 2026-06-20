@@ -971,8 +971,15 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transform: scale(1.22);
   transform-origin: center;
+}
+
+.icon-whatsapp img {
+  transform: scale(1.32);
+}
+
+.icon-instagram img {
+  transform: scale(1.42);
 }
 
 .icon-instagram {
