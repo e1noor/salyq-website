@@ -784,6 +784,39 @@ button {
   gap: 8px;
 }
 
+.lesson-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0 1.2rem 1.35rem 3.5rem;
+  color: var(--color-heading);
+}
+
+.lesson-list li {
+  padding-left: 0.25rem;
+  line-height: 1.55;
+}
+
+.lesson-list li::marker {
+  color: var(--color-gold-dark);
+  font-weight: 850;
+}
+
+.lesson-list li::before {
+  display: none;
+}
+
+.module-count {
+  margin-left: auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: var(--color-primary-dark);
+  background: var(--color-gold-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .accordion-icon {
   width: 34px;
   height: 34px;
@@ -811,6 +844,11 @@ button {
 
 .tariff-grid {
   align-items: stretch;
+}
+
+.tariff-grid.single {
+  width: min(100%, 720px);
+  margin-inline: auto;
 }
 
 .tariff-card {
@@ -1225,6 +1263,10 @@ button {
     transform: translateY(-14px);
   }
 
+  .tariff-grid.single .tariff-featured {
+    transform: none;
+  }
+
   .benefit-grid,
   .feature-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1259,6 +1301,10 @@ button {
 }
 
 @media (min-width: 1160px) {
+  .course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .benefit-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
