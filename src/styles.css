@@ -849,6 +849,7 @@ button {
 .tariff-grid.single {
   width: min(100%, 720px);
   margin-inline: auto;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .tariff-card {
@@ -1146,9 +1147,16 @@ button {
   height: 36px;
   display: grid;
   place-items: center;
+  overflow: hidden;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
-  font-weight: 900;
+  background: #ffffff;
+}
+
+.floating-whatsapp span img {
+  width: 30px;
+  height: 30px;
+  display: block;
+  object-fit: contain;
 }
 
 .floating-whatsapp strong {
